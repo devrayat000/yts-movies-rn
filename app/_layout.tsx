@@ -1,6 +1,11 @@
-import { useEffect } from "react";
 import { Stack, SplashScreen } from "expo-router";
-import { NativeBaseProvider, extendTheme } from "native-base";
+import {
+  Heading,
+  NativeBaseProvider,
+  extendTheme,
+  useColorModeValue,
+  useToken,
+} from "native-base";
 import {
   useFonts,
   Inter_400Regular,
@@ -14,7 +19,9 @@ import {
   onlineManager,
   focusManager,
 } from "@tanstack/react-query";
-import { AppState, Platform, type AppStateStatus } from "react-native";
+import { Platform, type AppStateStatus } from "react-native";
+import { useOnlineManager } from "../src/hooks/useOnlineManager";
+import { useAppState } from "../src/hooks/useAppState";
 // export const unstable_settings = {
 //   initialRouteName: "(auth)/login",
 // };
@@ -34,13 +41,24 @@ const theme = extendTheme({
   },
 });
 
-onlineManager.setEventListener((setOnline) => {
-  return NetInfo.addEventListener((state) => {
-    setOnline(!!state.isConnected);
-  });
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      networkMode: "offlineFirst",
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      cacheTime: 15 * 3_600,
+      retry: 2,
+    },
+  },
 });
 
-const queryClient = new QueryClient();
+function onAppStateChange(status: AppStateStatus) {
+  // React Query already supports in web browser refetch on window focus by default
+  if (Platform.OS !== "web") {
+    focusManager.setFocused(status === "active");
+  }
+}
 
 export default function RootLayout() {
   const [isFontLoaded] = useFonts({
@@ -49,16 +67,8 @@ export default function RootLayout() {
     Inter_700Bold,
   });
 
-  function onAppStateChange(status: AppStateStatus) {
-    if (Platform.OS !== "web") {
-      focusManager.setFocused(status === "active");
-    }
-  }
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", onAppStateChange);
-    return subscription.remove;
-  }, []);
+  useOnlineManager();
+  useAppState(onAppStateChange);
 
   if (!isFontLoaded) {
     return <SplashScreen />;
@@ -67,8 +77,28 @@ export default function RootLayout() {
   return (
     <NativeBaseProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Stack />
+        <Root />
       </QueryClientProvider>
     </NativeBaseProvider>
+  );
+}
+
+function Root() {
+  const headerColor = useToken(
+    "colors",
+    useColorModeValue("cyan.100", "blueGray.800")
+  );
+  const bg = useToken("colors", useColorModeValue("gray.50", "blueGray.700"));
+
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: headerColor },
+        headerTitle(props) {
+          return <Heading size="md" {...props} />;
+        },
+        contentStyle: { backgroundColor: bg },
+      }}
+    />
   );
 }

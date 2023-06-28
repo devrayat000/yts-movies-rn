@@ -3248,12 +3248,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/netinfo@npm:^9.3.10":
-  version: 9.3.10
-  resolution: "@react-native-community/netinfo@npm:9.3.10"
+"@react-native-community/netinfo@npm:9.3.7":
+  version: 9.3.7
+  resolution: "@react-native-community/netinfo@npm:9.3.7"
   peerDependencies:
     react-native: ">=0.59"
-  checksum: b3d79a61de0b08d6174616facda21cdac35a07a8d63b7d1830212862eef208c204dec90d74b29e85a6e60adc89ea5b7adf19c612c39073cc8ad4050440b1085b
+  checksum: 556e47312be4b3d74c4c8fa7ab0b526a9d8395745c4d94d813cd8f08284d2a16ba274d8a8fdc38d5a273c913ebbc356bc15e65a8c8ab4506f7612a08e43da83d
   languageName: node
   linkType: hard
 
@@ -6644,6 +6644,18 @@ __metadata:
   version: 1.4.4
   resolution: "expo-status-bar@npm:1.4.4"
   checksum: 8d36b821ff2804aed3158f339cc396f0525f365763913881b9b11e6e85e83f21ddbc3a2ede660ae8ce6d6df1a6cda825ad996c3c45f195cbc89091da7605f7e0
+  languageName: node
+  linkType: hard
+
+"expo-system-ui@npm:~2.2.1":
+  version: 2.2.1
+  resolution: "expo-system-ui@npm:2.2.1"
+  dependencies:
+    "@react-native/normalize-color": ^2.0.0
+    debug: ^4.3.2
+  peerDependencies:
+    expo: "*"
+  checksum: 5ea05eac2468944459072b41cbe60675d8803dfe6617045a4e516dc5158665d40eb023c19e19fb593c7c4d4140ca3bd11790b357682ec61280ccddfc7d53dbf0
   languageName: node
   linkType: hard
 
@@ -13342,7 +13354,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@expo-google-fonts/inter": ^0.2.3
     "@expo/vector-icons": ^13.0.0
-    "@react-native-community/netinfo": ^9.3.10
+    "@react-native-community/netinfo": 9.3.7
     "@tanstack/react-query": ^4.29.19
     "@types/react": ~18.0.27
     "@types/webtorrent": ^0.109.3
@@ -13351,6 +13363,7 @@ __metadata:
     expo-linking: ~4.0.1
     expo-router: ^1.0.0
     expo-status-bar: ~1.4.4
+    expo-system-ui: ~2.2.1
     native-base: ^3.4.28
     react: 18.2.0
     react-native: 0.71.8

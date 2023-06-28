@@ -1,22 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import { FlatList, Box, Text } from "native-base";
+import { RefreshControl } from "react-native";
 
 import { getLatestMovies } from "../services/movies";
+import MovieItem from "./MovieItem";
 
 export default function LatestMovieList() {
-  const { data } = useQuery(
-    ["movies", "latest"],
-    ({}) => getLatestMovies({ limit: 50 }),
-    { suspense: true }
+  const { data, isRefetching, refetch } = useQuery(["movies", "latest"], ({}) =>
+    getLatestMovies({})
   );
 
   return (
     <FlatList
+      p="2.5"
+      key={"dd"}
+      numColumns={2}
+      contentContainerStyle={{ gap: 12 }}
       data={data.data.movies}
-      renderItem={({ item: movie }) => (
-        <Box px="3" py="2">
-          <Text>{movie.title}</Text>
-        </Box>
+      keyExtractor={(movie) => String(movie.id)}
+      refreshControl={
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+      }
+      renderItem={({ item: movie, index }) => (
+        <MovieItem index={index} movie={movie} />
       )}
     />
   );

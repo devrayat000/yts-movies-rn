@@ -12,21 +12,18 @@ import {
 } from "native-base";
 import Octicons from "@expo/vector-icons/Octicons";
 import LatestMovies from "../src/components/LatestMovies";
+import ToggleTheme from "../src/components/ToggleTheme";
 
 export default function index() {
   return (
     <ScrollView p="2.5">
       <Stack.Screen
         options={{
-          headerTitle: "YTS Movies",
+          title: "YTS Movies",
           headerRight(props) {
             return (
               <HStack space="1">
-                <IconButton
-                  rounded="full"
-                  icon={<MoonIcon />}
-                  _icon={{ color: "gray.900" }}
-                />
+                <ToggleTheme />
                 <IconButton
                   rounded="full"
                   icon={<FavouriteIcon />}
@@ -43,9 +40,9 @@ export default function index() {
           py="3.5"
           alignItems="center"
           space="4"
-          shadow="5"
+          // shadow="5"
           _light={{ bg: "gray.200" }}
-          _dark={{ bg: "blueGray.700" }}
+          _dark={{ bg: "blueGray.800" }}
           rounded="sm"
         >
           <Icon as={Octicons} name="search" color="gray.500" />
