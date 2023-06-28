@@ -22,6 +22,7 @@ import {
 import { Platform, type AppStateStatus } from "react-native";
 import { useOnlineManager } from "../src/hooks/useOnlineManager";
 import { useAppState } from "../src/hooks/useAppState";
+import { useEffect } from "react";
 // export const unstable_settings = {
 //   initialRouteName: "(auth)/login",
 // };
@@ -60,6 +61,8 @@ function onAppStateChange(status: AppStateStatus) {
   }
 }
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [isFontLoaded] = useFonts({
     Inter_400Regular,
@@ -70,8 +73,14 @@ export default function RootLayout() {
   useOnlineManager();
   useAppState(onAppStateChange);
 
+  useEffect(() => {
+    if (isFontLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [isFontLoaded]);
+
   if (!isFontLoaded) {
-    return <SplashScreen />;
+    return null;
   }
 
   return (
@@ -94,8 +103,8 @@ function Root() {
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: headerColor },
-        headerTitle(props) {
-          return <Heading size="md" {...props} />;
+        headerTitle({ children }) {
+          return <Heading size="md">{children}</Heading>;
         },
         contentStyle: { backgroundColor: bg },
       }}

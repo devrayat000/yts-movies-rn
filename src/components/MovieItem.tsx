@@ -1,6 +1,8 @@
 import { Link } from "expo-router";
-import { AspectRatio, Box, Heading, Image, Pressable, Text } from "native-base";
+import { AspectRatio, Box, Heading, Pressable, Text } from "native-base";
+
 import type { Movie } from "../types/movie";
+import ExpoImage from "./ExpoImage";
 
 export interface MovieItemProps {
   index: number;
@@ -19,10 +21,14 @@ export default function MovieItem({ movie, index }: MovieItemProps) {
         mr={index % 2 === 0 ? "1" : undefined}
       >
         <AspectRatio ratio={3 / 4}>
-          <Image
-            source={{ uri: movie.medium_cover_image, cache: "force-cache" }}
-            fallbackSource={{ uri: require("../../assets/www.YTS.MX.jpg") }}
-            alt={movie.title_long}
+          <ExpoImage
+            source={{
+              uri: movie.medium_cover_image,
+              cacheKey: `cover_medium_${movie.id}`,
+            }}
+            placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
+            // alt={movie.title_long}
+            // sharedTransitionTag={`hero_${movie.id}`}
             rounded="md"
             borderWidth="4"
             borderColor="gray.300"
