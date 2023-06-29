@@ -65,10 +65,12 @@ function HeroList(props: {
     <Link href={props.href} asChild>
       <Pressable android_ripple={{ borderless: false, foreground: true }}>
         <HStack justifyContent="space-between" alignItems="center">
-          <Text fontSize="2xl">{props.title}</Text>
+          <Text fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}>
+            {props.title}
+          </Text>
           <ChevronRightIcon size="6" />
         </HStack>
-        <ScrollView horizontal h="48" mt="1">
+        <ScrollView horizontal mt="1">
           {props.children}
         </ScrollView>
       </Pressable>
@@ -88,7 +90,7 @@ function HeroLoader<Key extends QueryKey>(props: {
         <Link key={movie.id} href={`/movie/${movie.id}`} asChild>
           <Pressable
             android_ripple={{ borderless: false, foreground: true }}
-            w="32"
+            w={{ base: "32", sm: "40", md: "48", lg: "56" }}
           >
             <AspectRatio ratio={2 / 3} key={movie.id}>
               <ExpoImage
@@ -107,8 +109,12 @@ function HeroSkeleton() {
   return (
     <HStack space="1.5">
       {Array.from(new Array(6).keys()).map((idx) => (
-        <AspectRatio ratio={2 / 3} key={idx}>
-          <Skeleton h="100%" rounded="sm" />
+        <AspectRatio
+          ratio={2 / 3}
+          key={idx}
+          w={{ base: "32", sm: "40", md: "48", lg: "56" }}
+        >
+          <Skeleton rounded="sm" />
         </AspectRatio>
       ))}
     </HStack>

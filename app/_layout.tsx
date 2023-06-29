@@ -114,6 +114,7 @@ function Root() {
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: headerColor },
+        orientation: "default",
         headerTitle({ children }) {
           return <Heading size="md">{children}</Heading>;
         },

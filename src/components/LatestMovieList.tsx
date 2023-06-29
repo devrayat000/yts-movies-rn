@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Box, FlatList } from "native-base";
+import { Box, FlatList, useBreakpointValue } from "native-base";
 import { RefreshControl } from "react-native";
 
 import { getMoviesList } from "../services/movies";
@@ -7,9 +7,10 @@ import MovieItem from "./MovieItem";
 import { useRefreshByUser } from "../hooks/useRefreshByUser";
 
 export default function LatestMovieList() {
+  const numCol = useBreakpointValue({ base: 2, md: 3, lg: 5 });
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ["movies", "latest"],
-    ({ pageParam }) => getMoviesList({ page: pageParam }),
+    ({ pageParam }) => getMoviesList({ page: pageParam, limit: 8 * numCol }),
     { getNextPageParam: (page) => page.data.page_number + 1 }
   );
 
@@ -27,7 +28,7 @@ export default function LatestMovieList() {
   return (
     <FlatList
       p="2.5"
-      numColumns={2}
+      numColumns={numCol}
       contentContainerStyle={{ gap: 12 }}
       data={data.pages.flatMap((page) => page.data.movies)}
       keyExtractor={(movie) => String(movie.id)}
