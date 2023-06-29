@@ -6,17 +6,19 @@ import {
   Button,
   ScrollView,
   Heading,
-  Breadcrumb,
   AspectRatio,
   ZStack,
   HStack,
   Box,
+  Container,
 } from "native-base";
 import { useGlobalSearchParams, Stack } from "expo-router";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, RefreshControl } from "react-native";
 
 import { getMovieById } from "../../src/services/movies";
 import ExpoImage from "../../src/components/ExpoImage";
+import ErrorBoundary from "../../src/components/ErrorBoundary";
+import { useRefreshByUser } from "../../src/hooks/useRefreshByUser";
 
 type SearchParams = Record<string, string | string[]>;
 
@@ -25,12 +27,13 @@ interface MovieDetailsParams extends SearchParams {
 }
 
 export default function MovieDetailsPage() {
-  const { id } = useGlobalSearchParams<MovieDetailsParams>();
+  const { id = "52943" } = useGlobalSearchParams<MovieDetailsParams>();
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["movie", id],
     getMovieById,
     { suspense: false }
   );
+  const { isRefetchingByUser, refetchByUser } = useRefreshByUser(["movie", id]);
 
   if (isLoading) {
     return (
@@ -42,14 +45,7 @@ export default function MovieDetailsPage() {
   }
 
   if (isError && error instanceof Error) {
-    return (
-      <View style={{ flex: 1, backgroundColor: "red" }}>
-        <Text>{error.message}</Text>
-        <Button variant="ghost" color="error.500" onPress={() => refetch()}>
-          Try Again?
-        </Button>
-      </View>
-    );
+    return <ErrorBoundary error={error} retry={() => void refetch()} />;
   }
 
   if (!data) {
@@ -59,36 +55,81 @@ export default function MovieDetailsPage() {
   const movie = data.data.movie;
 
   return (
-    <ScrollView p="2.5">
+    <ScrollView
+      p="2.5"
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefetchingByUser}
+          onRefresh={refetchByUser}
+        />
+      }
+    >
       <Stack.Screen options={{ title: movie.title, headerShown: true }} />
       <Heading size="md">{movie.title}</Heading>
       <Text fontSize="md">{movie.year}</Text>
-      <ZStack mt="1.5">
-        <ExpoImage
-          source={{
-            uri: movie.background_image,
-            cacheKey: `bg_${movie.id}`,
-          }}
-        />
-        <HStack>
-          <AspectRatio ratio={3 / 4}>
+      <HStack flexWrap="wrap" style={{ gap: 3 }}>
+        {movie.genres.map((genre) => (
+          <Box
+            key={genre}
+            borderWidth="1"
+            borderColor="gray.600"
+            _dark={{ borderColor: "gray.300" }}
+            rounded="sm"
+            px="1"
+            mt="0.5"
+          >
+            <Text>{genre}</Text>
+          </Box>
+        ))}
+      </HStack>
+      <AspectRatio ratio={6 / 4} mt="1.5">
+        <ZStack alignItems="center" justifyContent="center">
+          <AspectRatio w="100%" flex={1} ratio={6 / 4}>
             <ExpoImage
+              // size="64"
+              rounded="lg"
+              shadow={8}
               source={{
-                uri: movie.medium_cover_image,
-                cacheKey: `cover_medium_${movie.id}`,
+                uri: movie.background_image,
+                cacheKey: `bg_${movie.id}`,
               }}
-              // placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
-              rounded="md"
-              borderWidth="4"
-              borderColor="gray.300"
-              _dark={{ borderColor: "gray.50" }}
+              zIndex={1}
             />
           </AspectRatio>
-          <Box>
-            <Text>{movie.rating}/10</Text>
-          </Box>
-        </HStack>
-      </ZStack>
+          <HStack zIndex={2} flex={1} m="1" space="2.5">
+            <AspectRatio ratio={3 / 4} flex={1}>
+              <ExpoImage
+                source={{
+                  uri: movie.medium_cover_image,
+                  cacheKey: `cover_medium_${movie.id}`,
+                }}
+                // placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
+                rounded="md"
+                borderWidth="4"
+                borderColor="gray.300"
+                _dark={{ borderColor: "gray.50" }}
+              />
+            </AspectRatio>
+            <Container flex={1}>
+              <HStack
+                rounded="full"
+                bg="gray.200"
+                alignItems="center"
+                space="1.5"
+                px="3"
+                py="1.5"
+              >
+                <ExpoImage
+                  source={require("../../assets/imdb.png")}
+                  h={5}
+                  w={10}
+                />
+                <Text>{movie.rating} / 10</Text>
+              </HStack>
+            </Container>
+          </HStack>
+        </ZStack>
+      </AspectRatio>
     </ScrollView>
   );
 }

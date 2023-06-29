@@ -12,7 +12,7 @@ export async function getLatestMovies(
 ): Promise<MovieListResponse> {
   const url = new URL("/api/v2/list_movies.json", "https://yts.mx");
   for (const key in params) {
-    if (Object.prototype.hasOwnProperty.call(params, key)) {
+    if (Object.prototype.hasOwnProperty.call(params, key) && !!params[key]) {
       url.searchParams.append(key, String(params[key]));
     }
   }
@@ -32,6 +32,8 @@ export const getMovieById = (async ({
     `/api/v2/movie_details.json?movie_id=${queryKey[1]}`,
     "https://yts.mx"
   );
+  console.log(url.toString());
+
   const res = await fetch(url, { signal });
   return res.json();
 }) satisfies QueryFunction<SingleMovieResponse, SingleMovieQueryKey>;

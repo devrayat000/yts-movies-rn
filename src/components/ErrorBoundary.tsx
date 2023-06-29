@@ -1,13 +1,13 @@
 import type { ErrorBoundaryProps } from "expo-router";
-import { Button, Text, View } from "native-base";
+import { Button, Center, Text } from "native-base";
 
 export default function ErrorBoundary(props: ErrorBoundaryProps) {
   return (
-    <View style={{ flex: 1, backgroundColor: "red" }}>
+    <Center flex={1} h="100%">
       <Text>{props.error.message}</Text>
       <Button variant="ghost" color="error.500" onPress={props.retry}>
         Try Again?
       </Button>
-    </View>
+    </Center>
   );
 }

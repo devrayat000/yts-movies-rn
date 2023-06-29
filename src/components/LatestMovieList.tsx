@@ -1,17 +1,22 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { FlatList, Box, Text } from "native-base";
+import { FlatList } from "native-base";
 import { RefreshControl } from "react-native";
 
 import { getLatestMovies } from "../services/movies";
 import MovieItem from "./MovieItem";
+import { useRefreshByUser } from "../hooks/useRefreshByUser";
 
 export default function LatestMovieList() {
-  const { data, isRefetching, refetch, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["movies", "latest"],
-      ({ pageParam }) => getLatestMovies({ page: pageParam }),
-      { getNextPageParam: (page) => page.data.page_number + 1 }
-    );
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    ["movies", "latest"],
+    ({ pageParam }) => getLatestMovies({ page: pageParam }),
+    { getNextPageParam: (page) => page.data.page_number + 1 }
+  );
+
+  const { isRefetchingByUser, refetchByUser } = useRefreshByUser([
+    "movies",
+    "latest",
+  ]);
 
   function loadNextPage() {
     if (hasNextPage) {
@@ -29,7 +34,10 @@ export default function LatestMovieList() {
       keyExtractor={(movie) => String(movie.id)}
       onEndReached={loadNextPage}
       refreshControl={
-        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        <RefreshControl
+          refreshing={isRefetchingByUser}
+          onRefresh={refetchByUser}
+        />
       }
       renderItem={({ item: movie, index }) => (
         <MovieItem index={index} movie={movie} />
