@@ -1,29 +1,42 @@
 {
   "expo": {
-    "name": "yts-movies",
+    "name": "YTS Movies",
     "slug": "yts-movies",
     "version": "0.1.0",
     "orientation": "portrait",
     "jsEngine": "hermes",
     "scheme": "acme",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/launch_icon.png",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "splash": {
+        "image": "./assets/splash/splash_light.png",
+        "backgroundColor": "#ECEFF1",
+        "dark": {
+          "image": "./assets/splash/splash_dark.png",
+          "backgroundColor": "#455A64"
+        }
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icons/launch_icon_adaptive.png",
+        "backgroundColor": "#47BF58"
+      },
+      "splash": {
+        "image": "./assets/splash/splash_light.png",
+        "backgroundColor": "#ECEFF1",
+        "resizeMode": "native",
+        "dark": {
+          "image": "./assets/splash/splash_dark.png",
+          "backgroundColor": "#455A64",
+          "resizeMode": "native"
+        }
       }
     },
     "extra": {
