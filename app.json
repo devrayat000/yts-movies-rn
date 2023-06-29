@@ -2,7 +2,7 @@
   "expo": {
     "name": "yts-movies",
     "slug": "yts-movies",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "jsEngine": "hermes",
     "scheme": "acme",
@@ -13,9 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "config": {
