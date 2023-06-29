@@ -3,7 +3,8 @@ import { Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { View, Center } from "native-base";
 
-import LatestMovieList from "../src/components/LatestMovieList";
+import MovieList from "../src/components/MovieList";
+import { getMoviesList } from "../src/services/movies";
 
 export default function LatestMoviesPage() {
   return (
@@ -20,7 +21,7 @@ export default function LatestMoviesPage() {
           </Center>
         }
       >
-        <LatestMovieList />
+        <MovieList key="latest" queryFn={(props) => getMoviesList(props)} />
       </Suspense>
     </View>
   );

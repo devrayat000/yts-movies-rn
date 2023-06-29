@@ -3,7 +3,8 @@ import { Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { View, Center } from "native-base";
 
-import HDMovieList from "../src/components/HDMovies";
+import MovieList from "../src/components/MovieList";
+import { getMoviesList } from "../src/services/movies";
 
 export default function HDMoviesPage() {
   return (
@@ -20,7 +21,10 @@ export default function HDMoviesPage() {
           </Center>
         }
       >
-        <HDMovieList />
+        <MovieList
+          key="hd"
+          queryFn={(props) => getMoviesList({ ...props, quality: "2160p" })}
+        />
       </Suspense>
     </View>
   );

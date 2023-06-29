@@ -3,7 +3,8 @@ import { Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { View, Center } from "native-base";
 
-import RatedMovieList from "../src/components/RatedMovieList";
+import MovieList from "../src/components/MovieList";
+import { getMoviesList } from "../src/services/movies";
 
 export default function RatedMoviesPage() {
   return (
@@ -20,7 +21,10 @@ export default function RatedMoviesPage() {
           </Center>
         }
       >
-        <RatedMovieList />
+        <MovieList
+          key="rated"
+          queryFn={(props) => getMoviesList({ ...props, minimum_rating: 5 })}
+        />
       </Suspense>
     </View>
   );
