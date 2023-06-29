@@ -5,6 +5,8 @@ import {
   extendTheme,
   useColorModeValue,
   useToken,
+  type StorageManager,
+  type ColorMode,
 } from "native-base";
 import {
   useFonts,
@@ -12,11 +14,10 @@ import {
   Inter_600SemiBold,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
-import NetInfo from "@react-native-community/netinfo";
+import * as SecureStore from "expo-secure-store";
 import {
   QueryClientProvider,
   QueryClient,
-  onlineManager,
   focusManager,
 } from "@tanstack/react-query";
 import { Platform, type AppStateStatus } from "react-native";
@@ -54,6 +55,16 @@ const queryClient = new QueryClient({
   },
 });
 
+const colorModeManager: StorageManager = {
+  async get(init) {
+    const storedMode = await SecureStore.getItemAsync("color-mode");
+    return (storedMode as ColorMode) ?? init;
+  },
+  set(value) {
+    return SecureStore.setItemAsync("color-mode", value);
+  },
+};
+
 function onAppStateChange(status: AppStateStatus) {
   // React Query already supports in web browser refetch on window focus by default
   if (Platform.OS !== "web") {
@@ -84,7 +95,7 @@ export default function RootLayout() {
   }
 
   return (
-    <NativeBaseProvider theme={theme}>
+    <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <QueryClientProvider client={queryClient}>
         <Root />
       </QueryClientProvider>

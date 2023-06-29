@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { ErrorBoundaryProps, Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { View, Text, Button, Center, Heading } from "native-base";
+
 import LatestMovieList from "../src/components/LatestMovieList";
 
 export default function LatestPage() {
@@ -14,7 +15,7 @@ export default function LatestPage() {
       />
       <Suspense
         fallback={
-          <Center>
+          <Center h="100%">
             <ActivityIndicator size="large" />
           </Center>
         }
@@ -25,13 +26,4 @@ export default function LatestPage() {
   );
 }
 
-export function ErrorBoundary(props: ErrorBoundaryProps) {
-  return (
-    <View style={{ flex: 1, backgroundColor: "red" }}>
-      <Text>{props.error.message}</Text>
-      <Button variant="ghost" color="error.500" onPress={props.retry}>
-        Try Again?
-      </Button>
-    </View>
-  );
-}
+export { default as ErrorBoundary } from "../src/components/ErrorBoundary";

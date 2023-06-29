@@ -54,3 +54,5 @@ export default function index() {
     </ScrollView>
   );
 }
+
+export { default as ErrorBoundary } from "../src/components/ErrorBoundary";

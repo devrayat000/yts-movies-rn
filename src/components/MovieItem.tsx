@@ -26,7 +26,7 @@ export default function MovieItem({ movie, index }: MovieItemProps) {
               uri: movie.medium_cover_image,
               cacheKey: `cover_medium_${movie.id}`,
             }}
-            placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
+            // placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
             // alt={movie.title_long}
             // sharedTransitionTag={`hero_${movie.id}`}
             rounded="md"
