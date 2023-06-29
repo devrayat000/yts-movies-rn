@@ -2,15 +2,13 @@
   "expo": {
     "name": "YTS Movies",
     "slug": "yts-movies",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "jsEngine": "hermes",
     "scheme": "acme",
     "icon": "./assets/icons/launch_icon.png",
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "config": {

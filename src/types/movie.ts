@@ -71,12 +71,13 @@ export interface Torrent {
   date_uploaded_unix: number;
 }
 
-export enum Quality {
-  The3D = "3D",
-  The2160P = "2160p",
-  The1080P = "1080p",
-  The720P = "720p",
-}
+export const Quality = Object.freeze({
+  The3D: "3D",
+  The2160P: "2160p",
+  The1080P: "1080p",
+  The720P: "720p",
+});
+export type Quality = (typeof Quality)[keyof typeof Quality];
 
 export enum Type {
   Bluray = "bluray",

@@ -6,16 +6,16 @@ import { getMoviesList } from "../services/movies";
 import MovieItem from "./MovieItem";
 import { useRefreshByUser } from "../hooks/useRefreshByUser";
 
-export default function LatestMovieList() {
+export default function HDMovieList() {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    ["movies", "latest"],
-    ({ pageParam }) => getMoviesList({ page: pageParam }),
+    ["movies", "hd"],
+    ({ pageParam }) => getMoviesList({ page: pageParam, quality: "2160p" }),
     { getNextPageParam: (page) => page.data.page_number + 1 }
   );
 
   const { isRefetchingByUser, refetchByUser } = useRefreshByUser([
     "movies",
-    "latest",
+    "hd",
   ]);
 
   function loadNextPage() {

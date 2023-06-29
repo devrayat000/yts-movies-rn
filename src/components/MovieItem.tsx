@@ -20,7 +20,7 @@ export default function MovieItem({ movie, index }: MovieItemProps) {
         ml={index % 2 === 1 ? "1" : undefined}
         mr={index % 2 === 0 ? "1" : undefined}
       >
-        <AspectRatio ratio={3 / 4}>
+        <AspectRatio ratio={2 / 3}>
           <ExpoImage
             source={{
               uri: movie.medium_cover_image,

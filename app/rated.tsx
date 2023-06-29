@@ -3,14 +3,14 @@ import { Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { View, Center } from "native-base";
 
-import LatestMovieList from "../src/components/LatestMovieList";
+import RatedMovieList from "../src/components/RatedMovieList";
 
-export default function LatestMoviesPage() {
+export default function RatedMoviesPage() {
   return (
     <View>
       <Stack.Screen
         options={{
-          title: "Latest Movies",
+          title: "Highly Rated Movies",
         }}
       />
       <Suspense
@@ -20,7 +20,7 @@ export default function LatestMoviesPage() {
           </Center>
         }
       >
-        <LatestMovieList />
+        <RatedMovieList />
       </Suspense>
     </View>
   );

@@ -1,6 +1,5 @@
 import { Stack } from "expo-router";
 import {
-  View,
   Text,
   Pressable,
   ScrollView,
@@ -8,10 +7,15 @@ import {
   Icon,
   IconButton,
   FavouriteIcon,
-  MoonIcon,
+  VStack,
 } from "native-base";
 import Octicons from "@expo/vector-icons/Octicons";
-import LatestMovies from "../src/components/LatestMovies";
+
+import {
+  HDMovies,
+  LatestMovies,
+  RatedMovies,
+} from "../src/components/MoviesHero";
 import ToggleTheme from "../src/components/ToggleTheme";
 
 export default function index() {
@@ -50,7 +54,11 @@ export default function index() {
         </HStack>
       </Pressable>
 
-      <LatestMovies />
+      <VStack space="2" my="4">
+        <LatestMovies />
+        <HDMovies />
+        <RatedMovies />
+      </VStack>
     </ScrollView>
   );
 }

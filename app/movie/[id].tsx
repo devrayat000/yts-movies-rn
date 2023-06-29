@@ -97,7 +97,7 @@ export default function MovieDetailsPage() {
             />
           </AspectRatio>
           <HStack zIndex={2} flex={1} m="1" space="2.5">
-            <AspectRatio ratio={3 / 4} flex={1}>
+            <AspectRatio ratio={2 / 3} flex={1}>
               <ExpoImage
                 source={{
                   uri: movie.medium_cover_image,

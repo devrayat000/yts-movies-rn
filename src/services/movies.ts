@@ -1,13 +1,28 @@
 import { QueryFunction } from "@tanstack/react-query";
-import type { MovieListResponse } from "../types/movie";
+import type { MovieListResponse, Quality } from "../types/movie";
 import { SingleMovieResponse } from "../types/single-movie";
 
 export interface MovieListParams {
   page?: number;
   limit?: number;
+  quality?: Quality;
+  minimum_rating?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  query_term?: string;
+  genre?: string;
+  sort_by?:
+    | "title"
+    | "year"
+    | "rating"
+    | "peers"
+    | "seeds"
+    | "download_count"
+    | "like_count"
+    | "date_added";
+  order_by?: "asc" | "desc";
+  with_rt_ratings?: boolean;
 }
 
-export async function getLatestMovies(
+export async function getMoviesList(
   params: MovieListParams
 ): Promise<MovieListResponse> {
   const url = new URL("/api/v2/list_movies.json", "https://yts.mx");
