@@ -8,7 +8,9 @@
     "scheme": "acme",
     "icon": "./assets/icons/launch_icon.png",
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "config": {
@@ -37,7 +39,8 @@
           "backgroundColor": "#455A64",
           "resizeMode": "native"
         }
-      }
+      },
+      "package": "com.devrayat000.ytsmovies"
     },
     "extra": {
       "eas": {
