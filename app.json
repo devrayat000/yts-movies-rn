@@ -11,6 +11,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "requireFullScreen": true,
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -45,6 +46,14 @@
         "projectId": "d7b87320-f968-4b1c-bd34-66802ee86862"
       }
     },
-    "owner": "devrayat000"
+    "owner": "devrayat000",
+    "plugins": [
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ]
+    ]
   }
 }

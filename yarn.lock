@@ -6638,6 +6638,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-screen-orientation@npm:~5.1.1":
+  version: 5.1.1
+  resolution: "expo-screen-orientation@npm:5.1.1"
+  peerDependencies:
+    expo: "*"
+  checksum: 5e647c1ed2e30a6db1741e5bfda581f957c113110a4f916c82b3c6220a96807880cc3aab189427e9ee4a61649de2c81d1332c75537271f9f9ac52467df4317c8
+  languageName: node
+  linkType: hard
+
 "expo-secure-store@npm:~12.1.1":
   version: 12.1.1
   resolution: "expo-secure-store@npm:12.1.1"
@@ -13381,6 +13390,7 @@ __metadata:
     expo-image: ~1.0.1
     expo-linking: ~4.0.1
     expo-router: ^1.0.0
+    expo-screen-orientation: ~5.1.1
     expo-secure-store: ~12.1.1
     expo-status-bar: ~1.4.4
     expo-system-ui: ~2.2.1
