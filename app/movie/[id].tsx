@@ -82,9 +82,9 @@ export default function MovieDetailsPage() {
           </Box>
         ))}
       </HStack>
-      <AspectRatio ratio={6 / 4} mt="1.5">
+      <AspectRatio ratio={4 / 3} mt="1.5">
         <ZStack alignItems="center" justifyContent="center">
-          <AspectRatio w="100%" flex={1} ratio={6 / 4}>
+          <AspectRatio w="100%" flex={1} ratio={4 / 3}>
             <ExpoImage
               // size="64"
               rounded="lg"

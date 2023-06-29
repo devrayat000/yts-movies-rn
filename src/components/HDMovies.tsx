@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { FlatList } from "native-base";
+import { Box, FlatList } from "native-base";
 import { RefreshControl } from "react-native";
 
 import { getMoviesList } from "../services/movies";
@@ -27,7 +27,6 @@ export default function HDMovieList() {
   return (
     <FlatList
       p="2.5"
-      key={"dd"}
       numColumns={2}
       contentContainerStyle={{ gap: 12 }}
       data={data.pages.flatMap((page) => page.data.movies)}
@@ -42,6 +41,7 @@ export default function HDMovieList() {
       renderItem={({ item: movie, index }) => (
         <MovieItem index={index} movie={movie} />
       )}
+      ListFooterComponent={() => <Box h="4" />}
     />
   );
 }

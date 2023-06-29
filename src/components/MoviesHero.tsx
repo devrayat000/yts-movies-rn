@@ -15,10 +15,11 @@ import { type QueryKey, useQuery } from "@tanstack/react-query";
 import { getMoviesList } from "../services/movies";
 import ExpoImage from "./ExpoImage";
 import type { MovieListResponse } from "../types/movie";
+import { TouchableHighlight } from "./Factory";
 
 export function LatestMovies() {
   return (
-    <HeroList title="Latest Movies">
+    <HeroList title="Latest Movies" href="/latest">
       <Suspense fallback={<HeroSkeleton />}>
         <HeroLoader
           queryKey={["movies", "latest", "hero"]}
@@ -31,7 +32,7 @@ export function LatestMovies() {
 
 export function HDMovies() {
   return (
-    <HeroList title="4k Movies">
+    <HeroList title="4k Movies" href="/hd">
       <Suspense fallback={<HeroSkeleton />}>
         <HeroLoader
           queryKey={["movies", "hd", "hero"]}
@@ -44,7 +45,7 @@ export function HDMovies() {
 
 export function RatedMovies() {
   return (
-    <HeroList title="Highly Rated Movies">
+    <HeroList title="Highly Rated Movies" href="/rated">
       <Suspense fallback={<HeroSkeleton />}>
         <HeroLoader
           queryKey={["movies", "rated", "hero"]}
@@ -55,17 +56,23 @@ export function RatedMovies() {
   );
 }
 
-function HeroList(props: { title: string; children: React.ReactNode }) {
+function HeroList(props: {
+  title: string;
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
-    <View>
-      <HStack justifyContent="space-between" alignItems="center">
-        <Text fontSize="2xl">{props.title}</Text>
-        <ChevronRightIcon size="6" />
-      </HStack>
-      <ScrollView horizontal h="48" mt="1">
-        {props.children}
-      </ScrollView>
-    </View>
+    <Link href={props.href} asChild>
+      <Pressable android_ripple={{ borderless: false, foreground: true }}>
+        <HStack justifyContent="space-between" alignItems="center">
+          <Text fontSize="2xl">{props.title}</Text>
+          <ChevronRightIcon size="6" />
+        </HStack>
+        <ScrollView horizontal h="48" mt="1">
+          {props.children}
+        </ScrollView>
+      </Pressable>
+    </Link>
   );
 }
 
@@ -78,9 +85,19 @@ function HeroLoader<Key extends QueryKey>(props: {
   return (
     <HStack space="1.5">
       {data.data.movies.map((movie) => (
-        <AspectRatio ratio={2 / 3} key={movie.id}>
-          <ExpoImage source={{ uri: movie.medium_cover_image }} rounded="sm" />
-        </AspectRatio>
+        <Link key={movie.id} href={`/movie/${movie.id}`} asChild>
+          <Pressable
+            android_ripple={{ borderless: false, foreground: true }}
+            w="32"
+          >
+            <AspectRatio ratio={2 / 3} key={movie.id}>
+              <ExpoImage
+                source={{ uri: movie.medium_cover_image }}
+                rounded="sm"
+              />
+            </AspectRatio>
+          </Pressable>
+        </Link>
       ))}
     </HStack>
   );
