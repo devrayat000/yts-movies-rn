@@ -8,6 +8,9 @@ import {
   Heading,
   Breadcrumb,
   AspectRatio,
+  ZStack,
+  HStack,
+  Box,
 } from "native-base";
 import { useGlobalSearchParams, Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
@@ -60,19 +63,32 @@ export default function MovieDetailsPage() {
       <Stack.Screen options={{ title: movie.title, headerShown: true }} />
       <Heading size="md">{movie.title}</Heading>
       <Text fontSize="md">{movie.year}</Text>
-      <AspectRatio ratio={3 / 4}>
+      <ZStack mt="1.5">
         <ExpoImage
           source={{
-            uri: movie.medium_cover_image,
-            cacheKey: `cover_medium_${movie.id}`,
+            uri: movie.background_image,
+            cacheKey: `bg_${movie.id}`,
           }}
-          // placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
-          rounded="md"
-          borderWidth="4"
-          borderColor="gray.300"
-          _dark={{ borderColor: "gray.50" }}
         />
-      </AspectRatio>
+        <HStack>
+          <AspectRatio ratio={3 / 4}>
+            <ExpoImage
+              source={{
+                uri: movie.medium_cover_image,
+                cacheKey: `cover_medium_${movie.id}`,
+              }}
+              // placeholder={{ uri: require("../../assets/www.YTS.MX.jpg") }}
+              rounded="md"
+              borderWidth="4"
+              borderColor="gray.300"
+              _dark={{ borderColor: "gray.50" }}
+            />
+          </AspectRatio>
+          <Box>
+            <Text>{movie.rating}/10</Text>
+          </Box>
+        </HStack>
+      </ZStack>
     </ScrollView>
   );
 }
