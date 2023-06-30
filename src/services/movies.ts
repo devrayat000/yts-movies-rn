@@ -1,6 +1,7 @@
 import { QueryFunction } from "@tanstack/react-query";
 import type { MovieListResponse, Quality } from "../types/movie";
 import { SingleMovieResponse } from "../types/single-movie";
+import { MovieSuggestionsResponse } from "../types/movie-suggestion";
 
 export interface MovieListParams {
   page?: number;
@@ -52,3 +53,18 @@ export const getMovieById = (async ({
   const res = await fetch(url, { signal });
   return res.json();
 }) satisfies QueryFunction<SingleMovieResponse, SingleMovieQueryKey>;
+
+type SuggestedMoviesQueryKey = ["movie", "suggestion", string];
+
+export const getSuggestedMovies = (async ({
+  queryKey,
+  signal,
+}): Promise<MovieSuggestionsResponse> => {
+  const url = new URL(
+    `/api/v2/movie_suggestions.json?movie_id=${queryKey[2]}`,
+    "https://yts.mx"
+  );
+
+  const res = await fetch(url, { signal });
+  return res.json();
+}) satisfies QueryFunction<MovieSuggestionsResponse, SuggestedMoviesQueryKey>;

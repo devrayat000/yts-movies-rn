@@ -11,14 +11,23 @@ import {
   HStack,
   Box,
   Container,
+  useBreakpointValue,
+  VStack,
+  useMediaQuery,
+  useToken,
+  useColorMode,
+  Skeleton,
 } from "native-base";
 import { useGlobalSearchParams, Stack } from "expo-router";
 import { ActivityIndicator, RefreshControl } from "react-native";
+import { BlurView } from "expo-blur";
 
 import { getMovieById } from "../../src/services/movies";
 import ExpoImage from "../../src/components/ExpoImage";
 import ErrorBoundary from "../../src/components/ErrorBoundary";
 import { useRefreshByUser } from "../../src/hooks/useRefreshByUser";
+import { LinearGradient } from "../../src/components/Factory";
+import MovieSuggestion from "../../src/components/MovieSuggestion";
 
 type SearchParams = Record<string, string | string[]>;
 
@@ -34,6 +43,12 @@ export default function MovieDetailsPage() {
     { suspense: false }
   );
   const { isRefetchingByUser, refetchByUser } = useRefreshByUser(["movie", id]);
+
+  const headingSize = useBreakpointValue(["md", "lg", "xl"]);
+  const [isBig] = useMediaQuery({
+    minWidth: useToken("breakpoints", "md"),
+  });
+  const { colorMode } = useColorMode();
 
   if (isLoading) {
     return (
@@ -65,38 +80,62 @@ export default function MovieDetailsPage() {
       }
     >
       <Stack.Screen options={{ title: movie.title, headerShown: true }} />
-      <Heading size="md">{movie.title}</Heading>
-      <Text fontSize="md">{movie.year}</Text>
-      <HStack flexWrap="wrap" style={{ gap: 3 }}>
-        {movie.genres.map((genre) => (
-          <Box
-            key={genre}
-            borderWidth="1"
-            borderColor="gray.600"
-            _dark={{ borderColor: "gray.300" }}
-            rounded="sm"
-            px="1"
-            mt="0.5"
-          >
-            <Text>{genre}</Text>
+      <VStack>
+        {!isBig && (
+          <Box>
+            <Heading size={headingSize}>{movie.title}</Heading>
+            <Text fontSize={["md", "lg", "xl"]}>
+              {movie.year}{" "}
+              <Text color="indigo.500" _dark={{ color: "indigo.400" }}>
+                [{movie.language}]
+              </Text>
+            </Text>
+            <HStack flexWrap="wrap" style={{ gap: 3 }}>
+              {movie.genres.map((genre) => (
+                <Box
+                  key={genre}
+                  borderWidth="1"
+                  borderColor="gray.600"
+                  _dark={{ borderColor: "gray.300" }}
+                  rounded="sm"
+                  px="1"
+                  mt="0.5"
+                >
+                  <Text fontSize={["sm", "lg"]}>{genre}</Text>
+                </Box>
+              ))}
+            </HStack>
           </Box>
-        ))}
-      </HStack>
-      <AspectRatio ratio={4 / 3} mt="1.5">
-        <ZStack alignItems="center" justifyContent="center">
-          <AspectRatio w="100%" flex={1} ratio={4 / 3}>
-            <ExpoImage
-              // size="64"
-              rounded="lg"
-              shadow={8}
-              source={{
-                uri: movie.background_image,
-                cacheKey: `bg_${movie.id}`,
-              }}
-              zIndex={1}
-            />
-          </AspectRatio>
-          <HStack zIndex={2} flex={1} m="1" space="2.5">
+        )}
+
+        <View position="relative" w="full" mt={!isBig ? "3" : undefined}>
+          <ExpoImage
+            // size="64"
+            rounded="lg"
+            shadow={8}
+            source={{
+              uri: movie.background_image,
+              cacheKey: `bg_${movie.id}`,
+            }}
+            zIndex={1}
+            w="full"
+            h="100%"
+            position="absolute"
+            contentFit="cover"
+          />
+          <BlurView
+            intensity={90}
+            tint={colorMode}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              zIndex: 2,
+            }}
+          >
+            <LinearGradient colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0.95)"]} />
+          </BlurView>
+          <HStack zIndex={2} flex={1} m="1" space="2.5" alignItems="flex-start">
             <AspectRatio ratio={2 / 3} flex={1}>
               <ExpoImage
                 source={{
@@ -110,26 +149,55 @@ export default function MovieDetailsPage() {
                 _dark={{ borderColor: "gray.50" }}
               />
             </AspectRatio>
-            <Container flex={1}>
-              <HStack
-                rounded="full"
-                bg="gray.200"
-                alignItems="center"
-                space="1.5"
-                px="3"
-                py="1.5"
-              >
-                <ExpoImage
-                  source={require("../../assets/imdb.png")}
-                  h={5}
-                  w={10}
-                />
-                <Text>{movie.rating} / 10</Text>
-              </HStack>
-            </Container>
+            <VStack flex={isBig ? 2 : 1} alignItems="flex-start">
+              {isBig && (
+                <View>
+                  <Heading size={headingSize}>{movie.title}</Heading>
+                  <Text fontSize={["md", "lg", "xl"]}>
+                    {movie.year}{" "}
+                    <Text color="indigo.500" _dark={{ color: "indigo.400" }}>
+                      [{movie.language}]
+                    </Text>
+                  </Text>
+                  <HStack flexWrap="wrap" style={{ gap: 3 }}>
+                    {movie.genres.map((genre) => (
+                      <Box
+                        key={genre}
+                        borderWidth="1"
+                        borderColor="gray.600"
+                        _dark={{ borderColor: "gray.300" }}
+                        rounded="sm"
+                        px="1"
+                        mt="0.5"
+                      >
+                        <Text fontSize={["sm", "lg"]}>{genre}</Text>
+                      </Box>
+                    ))}
+                  </HStack>
+                </View>
+              )}
+              <View mt={isBig ? "2" : undefined}>
+                <HStack
+                  rounded="full"
+                  bg="gray.200"
+                  alignItems="center"
+                  space="1.5"
+                  px="3"
+                  py="1.5"
+                >
+                  <ExpoImage
+                    source={require("../../assets/imdb.png")}
+                    h={5}
+                    w={10}
+                  />
+                  <Text>{movie.rating} / 10</Text>
+                </HStack>
+              </View>
+            </VStack>
+            {isBig && <MovieSuggestion />}
           </HStack>
-        </ZStack>
-      </AspectRatio>
+        </View>
+      </VStack>
     </ScrollView>
   );
 }

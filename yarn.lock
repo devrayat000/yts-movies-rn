@@ -6472,6 +6472,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-blur@npm:~12.2.2":
+  version: 12.2.2
+  resolution: "expo-blur@npm:12.2.2"
+  peerDependencies:
+    expo: "*"
+  checksum: d6c18737ca4afff93bcccc2681be0e02fea8ed75ed7b8752f9c7c88eb49127a868b610985d5b979b0ed654af06d04bf496b11f68638a2b34a334bdf00891316a
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~14.2.0, expo-constants@npm:~14.2.1":
   version: 14.2.1
   resolution: "expo-constants@npm:14.2.1"
@@ -6559,6 +6568,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 49bb74c53c9db2408c53a002f62809841a22b6b6cca3f9e5153f83738dc593bc1f420406bc3efa2d82a4249e03b86e2ef6a5cbd5707ec0d0e4677d55805b281f
+  languageName: node
+  linkType: hard
+
+"expo-linear-gradient@npm:~12.1.2":
+  version: 12.1.2
+  resolution: "expo-linear-gradient@npm:12.1.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 02a8bdd8f27d5f1d41d2ecb4bed60e44e85b3ba22ae9ac70fcadc86d1d8982415adb3ee4568067a3c0a054f86d3f66b5354240cdccbe500f15af6037fc34156e
   languageName: node
   linkType: hard
 
@@ -13377,8 +13395,10 @@ __metadata:
     "@types/react": ~18.0.27
     "@types/webtorrent": ^0.109.3
     expo: ~48.0.18
+    expo-blur: ~12.2.2
     expo-constants: ~14.2.1
     expo-image: ~1.0.1
+    expo-linear-gradient: ~12.1.2
     expo-linking: ~4.0.1
     expo-router: ^1.0.0
     expo-secure-store: ~12.1.1

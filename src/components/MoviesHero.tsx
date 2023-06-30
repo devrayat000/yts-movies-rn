@@ -114,7 +114,7 @@ function HeroSkeleton() {
           key={idx}
           w={{ base: "32", sm: "40", md: "48", lg: "56" }}
         >
-          <Skeleton rounded="sm" />
+          <Skeleton rounded="sm" h="full" />
         </AspectRatio>
       ))}
     </HStack>
