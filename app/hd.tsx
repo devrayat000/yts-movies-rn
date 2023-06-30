@@ -8,7 +8,7 @@ import { getMoviesList } from "../src/services/movies";
 
 export default function HDMoviesPage() {
   return (
-    <View>
+    <View h="full">
       <Stack.Screen
         options={{
           title: "Highly Rated Movies",
@@ -22,7 +22,7 @@ export default function HDMoviesPage() {
         }
       >
         <MovieList
-          key="hd"
+          queryKey="hd"
           queryFn={(props) => getMoviesList({ ...props, quality: "2160p" })}
         />
       </Suspense>

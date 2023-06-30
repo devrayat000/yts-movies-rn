@@ -4,13 +4,15 @@ import {
   HStack,
   Text,
   ChevronRightIcon,
-  ScrollView,
   AspectRatio,
-  View,
   Skeleton,
+  useBreakpointValue,
+  useToken,
+  Box,
 } from "native-base";
 import { Link } from "expo-router";
 import { type QueryKey, useQuery } from "@tanstack/react-query";
+import { FlashList } from "@shopify/flash-list";
 
 import { getMoviesList } from "../services/movies";
 import ExpoImage from "./ExpoImage";
@@ -70,9 +72,7 @@ function HeroList(props: {
           </Text>
           <ChevronRightIcon size="6" />
         </HStack>
-        <ScrollView horizontal mt="1">
-          {props.children}
-        </ScrollView>
+        {props.children}
       </Pressable>
     </Link>
   );
@@ -82,11 +82,20 @@ function HeroLoader<Key extends QueryKey>(props: {
   queryKey: Key;
   queryFn: () => Promise<MovieListResponse>;
 }) {
+  const width = useToken<number>(
+    "sizes",
+    useBreakpointValue({ base: "32", sm: "40", md: "48", lg: "56" })
+  );
   const { data } = useQuery(props.queryKey, props.queryFn);
 
   return (
-    <HStack space="1.5">
-      {data.data.movies.map((movie) => (
+    <FlashList
+      horizontal
+      contentContainerStyle={{ paddingTop: 4 }}
+      data={data.data.movies}
+      estimatedItemSize={width}
+      ItemSeparatorComponent={() => <Box width={useToken("space", "1.5")} />}
+      renderItem={({ item: movie }) => (
         <Link key={movie.id} href={`/movie/${movie.id}`} asChild>
           <Pressable
             android_ripple={{ borderless: false, foreground: true }}
@@ -100,23 +109,33 @@ function HeroLoader<Key extends QueryKey>(props: {
             </AspectRatio>
           </Pressable>
         </Link>
-      ))}
-    </HStack>
+      )}
+    />
   );
 }
 
 function HeroSkeleton() {
+  const width = useToken<number>(
+    "sizes",
+    useBreakpointValue({ base: "32", sm: "40", md: "48", lg: "56" })
+  );
+
   return (
-    <HStack space="1.5">
-      {Array.from(new Array(6).keys()).map((idx) => (
+    <FlashList
+      horizontal
+      contentContainerStyle={{ paddingTop: 4 }}
+      data={Array.from(new Array(6).keys())}
+      keyExtractor={String}
+      estimatedItemSize={width}
+      ItemSeparatorComponent={() => <Box width={useToken("space", "1.5")} />}
+      renderItem={() => (
         <AspectRatio
           ratio={2 / 3}
-          key={idx}
           w={{ base: "32", sm: "40", md: "48", lg: "56" }}
         >
           <Skeleton rounded="sm" h="full" />
         </AspectRatio>
-      ))}
-    </HStack>
+      )}
+    />
   );
 }

@@ -15,15 +15,12 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import * as SecureStore from "expo-secure-store";
-import {
-  QueryClientProvider,
-  QueryClient,
-  focusManager,
-} from "@tanstack/react-query";
+import { QueryClientProvider, focusManager } from "@tanstack/react-query";
 import { Platform, type AppStateStatus } from "react-native";
 import { useOnlineManager } from "../src/hooks/useOnlineManager";
 import { useAppState } from "../src/hooks/useAppState";
 import { useEffect } from "react";
+import { queryClient } from "../src/utils/queryClient";
 // export const unstable_settings = {
 //   initialRouteName: "(auth)/login",
 // };
@@ -40,18 +37,6 @@ const theme = extendTheme({
     heading: "Inter",
     body: "Inter",
     mono: "Inter",
-  },
-});
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true,
-      networkMode: "offlineFirst",
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-      cacheTime: 15 * 3_600,
-      retry: 2,
-    },
   },
 });
 

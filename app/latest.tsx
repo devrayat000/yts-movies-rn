@@ -8,7 +8,7 @@ import { getMoviesList } from "../src/services/movies";
 
 export default function LatestMoviesPage() {
   return (
-    <View>
+    <View h="full">
       <Stack.Screen
         options={{
           title: "Latest Movies",
@@ -21,7 +21,10 @@ export default function LatestMoviesPage() {
           </Center>
         }
       >
-        <MovieList key="latest" queryFn={(props) => getMoviesList(props)} />
+        <MovieList
+          queryKey="latest"
+          queryFn={(props) => getMoviesList(props)}
+        />
       </Suspense>
     </View>
   );

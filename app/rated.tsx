@@ -8,7 +8,7 @@ import { getMoviesList } from "../src/services/movies";
 
 export default function RatedMoviesPage() {
   return (
-    <View>
+    <View h="full">
       <Stack.Screen
         options={{
           title: "Highly Rated Movies",
@@ -22,7 +22,7 @@ export default function RatedMoviesPage() {
         }
       >
         <MovieList
-          key="rated"
+          queryKey="rated"
           queryFn={(props) => getMoviesList({ ...props, minimum_rating: 5 })}
         />
       </Suspense>
