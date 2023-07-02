@@ -41,8 +41,6 @@ export default function MovieList({ queryKey, queryFn }: MovieListProps) {
     }
   }
 
-  console.log({ width });
-
   return (
     <FlashList
       numColumns={numCol}

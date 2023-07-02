@@ -9,6 +9,7 @@ import {
   useBreakpointValue,
   useToken,
   Box,
+  View,
 } from "native-base";
 import { Link } from "expo-router";
 import { type QueryKey, useQuery } from "@tanstack/react-query";
@@ -89,28 +90,30 @@ function HeroLoader<Key extends QueryKey>(props: {
   const { data } = useQuery(props.queryKey, props.queryFn);
 
   return (
-    <FlashList
-      horizontal
-      contentContainerStyle={{ paddingTop: 4 }}
-      data={data.data.movies}
-      estimatedItemSize={width}
-      ItemSeparatorComponent={() => <Box width={useToken("space", "1.5")} />}
-      renderItem={({ item: movie }) => (
-        <Link key={movie.id} href={`/movie/${movie.id}`} asChild>
-          <Pressable
-            android_ripple={{ borderless: false, foreground: true }}
-            w={{ base: "32", sm: "40", md: "48", lg: "56" }}
-          >
-            <AspectRatio ratio={2 / 3} key={movie.id}>
-              <ExpoImage
-                source={{ uri: movie.medium_cover_image }}
-                rounded="sm"
-              />
-            </AspectRatio>
-          </Pressable>
-        </Link>
-      )}
-    />
+    <View>
+      <FlashList
+        horizontal
+        contentContainerStyle={{ paddingTop: 4 }}
+        data={data.data.movies}
+        estimatedItemSize={width}
+        ItemSeparatorComponent={() => <Box width={useToken("space", "1.5")} />}
+        renderItem={({ item: movie }) => (
+          <Link key={movie.id} href={`/movie/${movie.id}`} asChild>
+            <Pressable
+              android_ripple={{ borderless: false, foreground: true }}
+              w={{ base: "32", sm: "40", md: "48", lg: "56" }}
+            >
+              <AspectRatio ratio={2 / 3} key={movie.id}>
+                <ExpoImage
+                  source={{ uri: movie.medium_cover_image }}
+                  rounded="sm"
+                />
+              </AspectRatio>
+            </Pressable>
+          </Link>
+        )}
+      />
+    </View>
   );
 }
 

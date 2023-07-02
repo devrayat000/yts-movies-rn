@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Stack, SplashScreen } from "expo-router";
 import {
   Heading,
@@ -16,14 +17,16 @@ import {
 } from "@expo-google-fonts/inter";
 import * as SecureStore from "expo-secure-store";
 import { QueryClientProvider, focusManager } from "@tanstack/react-query";
-import { Platform, type AppStateStatus } from "react-native";
+import { Platform, LogBox, type AppStateStatus } from "react-native";
+
 import { useOnlineManager } from "../src/hooks/useOnlineManager";
 import { useAppState } from "../src/hooks/useAppState";
-import { useEffect } from "react";
 import { queryClient } from "../src/utils/queryClient";
 // export const unstable_settings = {
 //   initialRouteName: "(auth)/login",
 // };
+
+LogBox.ignoreLogs(["In React 18, SSRProvider"]);
 
 const theme = extendTheme({
   fontConfig: {

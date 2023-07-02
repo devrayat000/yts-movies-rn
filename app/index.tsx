@@ -24,9 +24,9 @@ export default function index() {
       <Stack.Screen
         options={{
           title: "YTS Movies",
-          headerRight(props) {
+          headerRight({ tintColor }) {
             return (
-              <HStack space="1">
+              <HStack space="1" tintColor={tintColor}>
                 <ToggleTheme />
                 <IconButton
                   rounded="full"
