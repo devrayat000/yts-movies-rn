@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Logs } from "expo";
 import { Stack, SplashScreen } from "expo-router";
 import {
   Heading,
@@ -26,6 +27,7 @@ import { queryClient } from "../src/utils/queryClient";
 //   initialRouteName: "(auth)/login",
 // };
 
+Logs.disableExpoCliLogging();
 LogBox.ignoreLogs(["In React 18, SSRProvider"]);
 
 const theme = extendTheme({

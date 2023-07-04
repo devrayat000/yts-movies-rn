@@ -22,6 +22,7 @@ import MovieSuggestion from "../../src/components/MovieSuggestion";
 import MovieDetailsHero from "../../src/components/details/Hero";
 import Intro from "../../src/components/details/Intro";
 import Trailer from "../../src/components/details/Trailer";
+import Torrents from "../../src/components/details/Torrents";
 
 type SearchParams = Record<string, string | string[]>;
 
@@ -29,9 +30,7 @@ interface MovieDetailsParams extends SearchParams {
   id: string;
 }
 
-export default function MovieDetailsPage(props: any) {
-  console.log(props);
-
+export default function MovieDetailsPage() {
   const { id } = useGlobalSearchParams<MovieDetailsParams>();
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["movie", id],
@@ -80,6 +79,9 @@ export default function MovieDetailsPage(props: any) {
         {!isBig && <Intro movie={movie} />}
 
         <MovieDetailsHero movie={movie} />
+
+        <Torrents torrents={movie.torrents} />
+
         <Flex direction={flexDir} mt="5" style={{ gap: 16 }}>
           <View flex={1}>
             <Heading size={headingSize}>Synopsis</Heading>
@@ -89,7 +91,11 @@ export default function MovieDetailsPage(props: any) {
           </View>
           <Trailer videoId={movie.yt_trailer_code} />
         </Flex>
-        <View>{!isBig && <MovieSuggestion />}</View>
+        {!isBig && (
+          <View mt="5">
+            <MovieSuggestion />
+          </View>
+        )}
       </VStack>
     </ScrollView>
   );

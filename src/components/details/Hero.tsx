@@ -69,7 +69,11 @@ export default function MovieDetailsHero({ movie }: { movie: Movie }) {
         </AspectRatio>
         <VStack flex={isBig ? 2 : 1} alignItems="flex-start">
           {isBig && <Intro movie={movie} />}
-          <Pressable mt={isBig ? "2" : undefined} onPress={openImdb}>
+          <Pressable
+            mt={isBig ? "2" : undefined}
+            onPress={openImdb}
+            accessibilityLabel="Open in IMDB"
+          >
             <HStack
               rounded="full"
               bg="gray.200"
